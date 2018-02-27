@@ -1,0 +1,34 @@
+﻿@model Assignment1.Models.Director
+
+@{
+    ViewBag.Title = "Director Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Director Details</h2>
+
+<div>
+    <h4>Director</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+    </dl>
+    <h5>Movies</h5>
+    <ul>
+        @foreach (var a in Model.Movies)
+        {
+            <li>@a.Title</li>
+        }
+    </ul>
+
+</div>
+<p>
+    @Html.ActionLink("Back to List", "Index")
+</p>

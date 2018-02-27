@@ -1,0 +1,19 @@
+﻿@model Assignment1.Models.Genre
+
+@{
+    ViewBag.Title = Model.Name + " Movies";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@Model.Name Movies</h2>
+
+
+@foreach (var a in Model.Movies)
+{
+    <article>
+        <h3>@a.Title - @a.Director.Name</h3>
+        <img src="@a.MovieArtUrl" alt="@a.Title" />
+    </article>
+    <p>@String.Format("{0:c}", a.Price)</p>
+
+}

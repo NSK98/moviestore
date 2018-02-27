@@ -1,0 +1,6 @@
+Azure SQL SERVER
+
+host: comp2007moviestore.database.windows.net
+database name - moviestore
+username - direwolf	
+password - Navu1998
