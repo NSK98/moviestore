@@ -18,7 +18,27 @@ namespace Assignment1.Controllers
         public ActionResult Index()
         {
             var movies = db.Movies.Include(m => m.Director).Include(m => m.Genre);
+            ViewBag.MovieCount = movies.Count();
             return View(movies.OrderBy(m => m.Director.Name).ThenBy(m => m.Title).ToList());
+        }
+
+
+        // POST: StoreManager
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Index(String Title)
+        {
+            if (Title == "")
+            {
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                var movies = db.Movies.Include(a => a.Director).Include(a => a.Genre).Where(a => a.Title.Contains(Title));
+                ViewBag.MovieCount = movies.Count();
+                ViewBag.Keywords = Title;
+                return View(movies.OrderBy(a => a.Director.Name).ThenBy(a => a.Title).ToList());
+            }
         }
 
         // GET: StoreManager/Details/5
@@ -39,8 +59,8 @@ namespace Assignment1.Controllers
         // GET: StoreManager/Create
         public ActionResult Create()
         {
-            ViewBag.DirectorId = new SelectList(db.Directors, "DirectorId", "Name");
-            ViewBag.GenreId = new SelectList(db.Genres, "GenreId", "Name");
+            ViewBag.DirectorId = new SelectList(db.Directors.OrderBy(m => m.Name), "DirectorId", "Name");
+            ViewBag.GenreId = new SelectList(db.Genres.OrderBy(g => g.Name), "GenreId", "Name");
             return View();
         }
 
@@ -53,6 +73,25 @@ namespace Assignment1.Controllers
         {
             if (ModelState.IsValid)
             {
+                // upload cover image if any
+                if (Request.Files.Count > 0)
+                {
+                    var file = Request.Files[0];
+
+                    if (file.FileName != null && file.ContentLength > 0)
+                    {
+                        if (file.ContentType.Equals("image/png") || file.ContentType.Equals("image/jpeg"))
+                        {
+                            string path = Server.MapPath("~/Content/Images/") + file.FileName;
+                            file.SaveAs(path);
+                            movie.MovieArtUrl = "/Content/Images/" + file.FileName;
+                        }
+                        else
+                        {
+                            return View("Error");
+                        }
+                    }
+                }
                 db.Movies.Add(movie);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -75,8 +114,8 @@ namespace Assignment1.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.DirectorId = new SelectList(db.Directors, "DirectorId", "Name", movie.DirectorId);
-            ViewBag.GenreId = new SelectList(db.Genres, "GenreId", "Name", movie.GenreId);
+            ViewBag.DirectorId = new SelectList(db.Directors.OrderBy(m => m.Name), "DirectorId", "Name", movie.DirectorId);
+            ViewBag.GenreId = new SelectList(db.Genres.OrderBy(g => g.Name), "GenreId", "Name", movie.GenreId);
             return View(movie);
         }
 
@@ -89,6 +128,25 @@ namespace Assignment1.Controllers
         {
             if (ModelState.IsValid)
             {
+                // upload cover image if any
+                if (Request.Files.Count > 0)
+                {
+                    var file = Request.Files[0];
+
+                    if (file.FileName != null && file.ContentLength > 0)
+                    {
+                        if (file.ContentType.Equals("image/png") || file.ContentType.Equals("image/jpeg"))
+                        {
+                            string path = Server.MapPath("~/Content/Images/") + file.FileName;
+                            file.SaveAs(path);
+                            movie.MovieArtUrl = "/Content/Images/" + file.FileName;
+                        }
+                        else
+                        {
+                            return View("Error");
+                        }
+                    }
+                }
                 db.Entry(movie).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");

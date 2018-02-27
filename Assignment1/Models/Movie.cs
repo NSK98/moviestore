@@ -18,8 +18,11 @@ namespace Assignment1.Models
 
         public int MovieId { get; set; }
 
+        [Display(Name = "Genre")]
         public int GenreId { get; set; }
 
+
+        [Display(Name = "Director")]
         public int DirectorId { get; set; }
 
         [Required]
@@ -27,6 +30,9 @@ namespace Assignment1.Models
         public string Title { get; set; }
 
         [Column(TypeName = "numeric")]
+        [DisplayFormat(DataFormatString = "{0:c}")]
+        [Range (0.01, 1000.00)]
+
         public decimal Price { get; set; }
 
         [StringLength(1024)]

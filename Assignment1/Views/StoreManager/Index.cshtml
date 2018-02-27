@@ -40,36 +40,36 @@
 
     @foreach (var item in Model)
     {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Director.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Title)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Genre.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Price)
-        </td>
-        <td>
-            @if (item.MovieArtUrl != null)
-        {
-            <img src="@item.MovieArtUrl" alt="@item.Title" width="100" />
-    }
-    else
-    {
-        <img src="~/Content/Images/placeholder.gif" alt="@item.Title" />
-}
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Director.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Genre.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                @if (item.MovieArtUrl != null)
+                {
+                    <img src="@item.MovieArtUrl" alt="@item.Title" width="100" />
+                }
+                else
+                {
+                    <img src="~/Content/Images/placeholder.gif" alt="@item.Title" />
+                }
 
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id = item.MovieId }) |
-            @Html.ActionLink("Details", "Details", new { id = item.MovieId }) |
-            @Html.ActionLink("Delete", "Delete", new { id = item.MovieId })
-        </td>
-    </tr>
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.MovieId }) |
+                @Html.ActionLink("Details", "Details", new { id = item.MovieId }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.MovieId })
+            </td>
+        </tr>
     }
 
 </table>
